@@ -3,6 +3,8 @@ import requests
 import urllib
 import subprocess
 import argparse
+import sys
+from twython import Twython
 
 parser = argparse.ArgumentParser(description='This is a demo script by DaveConroy.com.')
 parser.add_argument('-o','--origin_language', help='Origin Language',required=True)
@@ -49,5 +51,17 @@ translation_url = 'http://api.microsofttranslator.com/V2/Ajax.svc/Translate?'
 translation_result = requests.get(translation_url+urllib.urlencode(translation_args),headers=headers)
 translation=translation_result.text[2:-1]
 
+#This is where twitter access will be
+CONSUMER_KEY = ''
+CONSUMER_SECRET = ''
+ACCESS_TOKEN = ''
+ACCESS_SECRET = ''
+
+api = Twython(CONSUMER_KEY,CONSUMER_SECRET,ACCESS_TOKEN,ACCESS_SECRET)
+
+
+
 speakOriginText('Translating ' + translation_args["text"])
-speakDestinationText(translation)
+speakDestinationText('Tweeting '+ translation)
+
+api.update_status(status=translation)
